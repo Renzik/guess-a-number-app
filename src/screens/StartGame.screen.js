@@ -34,11 +34,17 @@ const StartGame = () => {
     chosenNum === NaN || chosenNum <= 0 || chosenNum > 99
       ? alert('Invalid Input')
       : setConfirmed(true),
-      setSelectedNum(),
+      setSelectedNum(chosenNum),
       setNum('');
 
     // setSelectedNum(+num);
   };
+
+  let confirmedOutput;
+
+  if (confirmed) {
+    confirmedOutput = <Text>Chosen Number: {selectedNum}</Text>;
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -65,6 +71,7 @@ const StartGame = () => {
             </View>
           </View>
         </Card>
+        {confirmedOutput}
       </View>
     </TouchableWithoutFeedback>
   );
