@@ -3,18 +3,20 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   Button,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 
 import theme from '../../constants/colors';
 
+import BodyText from '../components/BodyText';
 import Card from '../components/Card';
 import Input from '../components/Input';
+import NumberContainer from '../components/NumberContainer';
 
-const StartGame = () => {
+const StartGame = props => {
   const [num, setNum] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNum, setSelectedNum] = useState();
@@ -31,27 +33,47 @@ const StartGame = () => {
   const handleConfirm = () => {
     const chosenNum = parseInt(num);
 
-    chosenNum === NaN || chosenNum <= 0 || chosenNum > 99
-      ? alert('Invalid Input')
+    isNaN(chosenNum) || chosenNum <= 0 || chosenNum > 99
+      ? Alert.alert('Invalid Number!', 'Number has to be between 1 and 99.', [
+          { text: 'Okay', style: 'destructive', onPress: handleReset },
+        ])
       : setConfirmed(true),
       setSelectedNum(chosenNum),
-      setNum('');
-
-    // setSelectedNum(+num);
+      setNum(''),
+      Keyboard.dismiss();
   };
 
   let confirmedOutput;
 
   if (confirmed) {
-    confirmedOutput = <Text>Chosen Number: {selectedNum}</Text>;
+    confirmedOutput = (
+      <View style={styles.screen}>
+        <Card style={styles.summaryContainer}>
+          <BodyText style={styles.afterConfirmButtonTitle}>You selected</BodyText>
+          <NumberContainer>{selectedNum}</NumberContainer>
+          <View style={styles.afterConfirmButtonContainer}>
+            <Button
+              title='Start Game'
+              color={theme.primary}
+              onPress={() => {
+                props.gameSwitch(selectedNum);
+              }}
+            />
+          </View>
+          <View style={styles.afterConfirmButtonContainer}>
+            <Button title='Retry Number' color={theme.secondary} onPress={handleReset} />
+          </View>
+        </Card>
+      </View>
+    );
   }
 
-  return (
+  return !confirmedOutput ? (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.screen}>
         <Text style={styles.title}>Start a New Game! </Text>
         <Card style={styles.inputContainer}>
-          <Text>Select a Number</Text>
+          <BodyText style={{ fontSize: 16 }}>Select a Number</BodyText>
           <Input
             style={styles.textInput}
             blurOnSubmit
@@ -71,9 +93,10 @@ const StartGame = () => {
             </View>
           </View>
         </Card>
-        {confirmedOutput}
       </View>
     </TouchableWithoutFeedback>
+  ) : (
+    <>{confirmedOutput}</>
   );
 };
 
@@ -86,6 +109,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     marginVertical: 20,
+    fontFamily: 'open-sans-bold',
   },
   textInput: {
     width: 35,
@@ -105,6 +129,22 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '43%',
+  },
+  summaryContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  afterConfirmButtonContainer: {
+    marginVertical: 10,
+    width: 130,
+  },
+  afterConfirmButton: {
+    width: '30%',
+    marginVertical: 10,
+  },
+  afterConfirmButtonTitle: {
+    fontSize: 20,
+    marginVertical: 10,
   },
 });
 
