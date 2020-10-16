@@ -15,6 +15,7 @@ import BodyText from '../components/BodyText';
 import Card from '../components/Card';
 import Input from '../components/Input';
 import NumberContainer from '../components/NumberContainer';
+import CustomButton from '../components/CustomButton';
 
 const StartGame = props => {
   const [num, setNum] = useState('');
@@ -52,13 +53,12 @@ const StartGame = props => {
           <BodyText style={styles.afterConfirmButtonTitle}>You selected</BodyText>
           <NumberContainer>{selectedNum}</NumberContainer>
           <View style={styles.afterConfirmButtonContainer}>
-            <Button
-              title='Start Game'
-              color={theme.primary}
-              onPress={() => {
-                props.gameSwitch(selectedNum);
-              }}
-            />
+            <CustomButton
+              style={styles.selectedNumScreen}
+              // btnAction={props.gameSwitch}
+              onPress={() => props.gameSwitch(selectedNum)}>
+              START GAME
+            </CustomButton>
           </View>
           <View style={styles.afterConfirmButtonContainer}>
             <Button title='Retry Number' color={theme.secondary} onPress={handleReset} />
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
   },
   buttonContainer: {
-    flexDirection: 'row-reverse',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
     paddingHorizontal: 15,
@@ -145,6 +145,9 @@ const styles = StyleSheet.create({
   afterConfirmButtonTitle: {
     fontSize: 20,
     marginVertical: 10,
+  },
+  selectedNumScreen: {
+    backgroundColor: theme.primary,
   },
 });
 
