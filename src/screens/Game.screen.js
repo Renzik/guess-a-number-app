@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, Text, View, Alert, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Alert, ScrollView, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import theme from '../../constants/colors';
@@ -18,7 +18,6 @@ const generateNumBetween = (min, max, exclude) => {
 
 const renderListItem = (value, numOfRound) => (
   <View key={value} style={styles.listItem}>
-    {console.log('numOfRound', numOfRound)}
     <BodyText style={styles.listItemText}>#{numOfRound}</BodyText>
     <BodyText style={styles.listItemText}>{value}</BodyText>
   </View>
@@ -83,12 +82,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     alignItems: 'center',
-    // flexDirection: 'row',
   },
   buttonContainer: {
     flexDirection: 'row-reverse',
     justifyContent: 'space-around',
-    marginTop: 20,
+    marginTop: Dimensions.get('window').height > 600 ? 20 : 5,
     width: 300,
     maxWidth: '80%',
   },
@@ -107,7 +105,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
-    width: 300,
+    width: Dimensions.get('window').width > 375 ? '60%' : '80%',
   },
   listItem: {
     borderColor: '#ccc',
@@ -117,7 +115,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '50%',
+    width: '100%',
   },
 });
 

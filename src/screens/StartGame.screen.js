@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  Dimensions,
 } from 'react-native';
 
 import theme from '../../constants/colors';
@@ -71,7 +72,7 @@ const StartGame = props => {
   return !confirmedOutput ? (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.screen}>
-        <Text style={styles.title}>Start a New Game! </Text>
+        <Text style={styles.title}>Start a New Game!</Text>
         <Card style={styles.inputContainer}>
           <BodyText style={{ fontSize: 16 }}>Select a Number</BodyText>
           <Input
@@ -111,24 +112,27 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     fontFamily: 'open-sans-bold',
   },
+  inputContainer: {
+    width: '80%',
+    maxWidth: '90%',
+    // minWidth: 300,
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    paddingHorizontal: 15,
+    // borderWidth: 1,
+    // borderColor: 'red',
+  },
   textInput: {
     width: 35,
     fontSize: 20,
     textAlign: 'center',
   },
-  inputContainer: {
-    alignItems: 'center',
-    width: 300,
-    maxWidth: '80%',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingHorizontal: 15,
-  },
   button: {
-    width: '43%',
+    width: Dimensions.get('window').width / 4,
   },
   summaryContainer: {
     marginTop: 20,
