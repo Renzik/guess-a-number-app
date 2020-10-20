@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerIOS: {
-    backgroundColor: 'white',
+    backgroundColor: theme.primary,
     borderBottomColor: '#ccc',
-    borderWidth: 1,
+    borderBottomWidth: 1,
   },
   headerAndroid: {
     backgroundColor: theme.primary,

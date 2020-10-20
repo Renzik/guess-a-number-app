@@ -3,17 +3,15 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   TouchableNativeFeedback,
   Platform,
+  TouchableOpacity,
 } from 'react-native';
 
 const CustomButton = ({ children, style, onPress }) => {
   let ButtonComponent = TouchableOpacity;
 
-  Platform.OS === 'android' && Platform.Version >= 21
-    ? (ButtonComponent = TouchableNativeFeedback)
-    : null;
+  Platform.Version >= 21 ? (ButtonComponent = TouchableNativeFeedback) : null;
 
   return (
     <View style={styles.buttonContainer}>
