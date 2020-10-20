@@ -3,7 +3,8 @@
     "name": "number-guess-app",
     "slug": "number-guess-app",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "platforms": ["ios", "android", "web"],
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -13,9 +14,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },

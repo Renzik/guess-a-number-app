@@ -44,10 +44,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 10,
   },
   imageContainer: {
-    width: Dimensions.get('window').width * 0.7,
-    height: Dimensions.get('window').width * 0.7,
+    width: Dimensions.get('window').width * 0.5,
+    height: Dimensions.get('window').width * 0.5,
     borderRadius: (Dimensions.get('window').width * 0.7) / 2,
     borderWidth: 3,
     borderColor: 'black',

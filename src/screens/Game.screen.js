@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, Text, View, Alert, ScrollView, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+// import { ScreenOrientation } from 'expo';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 import theme from '../../constants/colors';
 
@@ -24,10 +26,13 @@ const renderListItem = (value, numOfRound) => (
 );
 
 const GameScreen = ({ userGuess, onGameOver }) => {
+  // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+
   const initialGuess = generateNumBetween(1, 100, userGuess);
   const [currentGuess, setcurrentGuess] = useState(initialGuess);
   const [pastGuesses, setPastGuesses] = useState([initialGuess]);
-
+  const [deviceHeight, setDeviceHeight] = useState(Dimensions.get('window').height);
+  const [deviceWidth, setDeviceWidth] = useState(Dimensions.get('window').width);
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
 
@@ -55,6 +60,40 @@ const GameScreen = ({ userGuess, onGameOver }) => {
     setcurrentGuess(nextGuess);
     setPastGuesses(currPastGuesses => [nextGuess, ...currPastGuesses]);
   };
+
+  useEffect(() => {
+    const orientationTracker = () => (
+      setDeviceHeight(Dimensions.get('window').height),
+      setDeviceWidth(Dimensions.get('window').width)
+    );
+
+    Dimensions.addEventListener('change', orientationTracker);
+    return () => Dimensions.removeEventListener('change', orientationTracker);
+  });
+
+  if (deviceHeight < 500) {
+    return (
+      <View style={styles.screen}>
+        <Text>Opponent's Guess</Text>
+
+        <View style={styles.controls}>
+          <CustomButton style={styles.greaterBtn} onPress={() => nextGuessHandler('greater')}>
+            <Ionicons name='md-add' size={24} color='white' />
+          </CustomButton>
+          <NumberContainer>{currentGuess}</NumberContainer>
+          <CustomButton style={styles.lowerBtn} onPress={() => nextGuessHandler('lower')}>
+            <Ionicons name='md-remove' size={24} color='white' />
+          </CustomButton>
+        </View>
+
+        <View style={styles.listContainer}>
+          <ScrollView contentContainerStyle={styles.list}>
+            {pastGuesses.map((guess, i) => renderListItem(guess, pastGuesses.length - i))}
+          </ScrollView>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.screen}>
@@ -89,6 +128,12 @@ const styles = StyleSheet.create({
     marginTop: Dimensions.get('window').height > 600 ? 20 : 5,
     width: 300,
     maxWidth: '80%',
+  },
+  controls: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: Dimensions.get('window').width < 600 ? '40%' : '30%',
+    alignItems: 'center',
   },
   greaterBtn: {
     backgroundColor: theme.primary,
